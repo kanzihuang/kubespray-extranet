@@ -1,0 +1,12 @@
+---
+- hosts: k8s_cluster
+  tasks:
+  - name: check if booted with ostree
+    stat:
+      path: /run/ostree-booted
+      get_attributes: no
+      get_checksum: no
+      get_mime: no
+    register: ostree
+  - debug:
+      var: ostree

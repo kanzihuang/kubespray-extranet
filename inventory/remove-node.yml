@@ -1,0 +1,6 @@
+---
+- name: Remove node
+  import_playbook: ../kubespray/remove-node.yml
+
+- name: Kubespray extranet reset
+  import_playbook: kubespray-extranet-reset.yml

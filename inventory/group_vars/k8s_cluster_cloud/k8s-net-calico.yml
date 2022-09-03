@@ -1,0 +1,3 @@
+---
+# set VXLAN port
+calico_vxlan_port: 8472

@@ -1,5 +1,22 @@
 # 公网创建 kubernetes 集群的主要问题
 
+## 从github.com上下载软件安装包速度慢
+
+```sh
+$ wget --tries=1 https://github.com/etcd-io/etcd/releases/download/v3.5.3/etcd-v3.5.3-linux-amd64.tar.gz
+Resolving github.com (github.com)... 20.205.243.166
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... No data received.
+Giving up.
+```
+
+## 无法从gcr.io和k8s.io上下载镜像
+
+```sh
+$ docker pull registry.k8s.io/pause:3.3
+Error response from daemon: Head "https://k8s.gcr.io/v2/pause/manifests/latest": dial tcp 108.177.125.82:443: i/o timeout
+```
+
 ## 云主机内网地址不支持跨云访问
 
 ### kubespray 参数 ip、access_ip 均使用内网 IP 地址

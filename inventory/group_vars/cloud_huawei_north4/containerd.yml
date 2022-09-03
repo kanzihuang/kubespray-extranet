@@ -1,0 +1,5 @@
+---
+containerd_registries:
+  "docker.io":
+    - "https://swr.cn-north-4.myhuaweicloud.com"
+    - "https://registry.docker-cn.com"

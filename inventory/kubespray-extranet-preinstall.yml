@@ -1,0 +1,23 @@
+---
+- name: Dummy extranet
+  hosts: k8s_cluster:etcd
+  gather_facts: False
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  roles:
+    - { role: dummy-extranet, tags: "kubespray-extranet", when: dummy_extranet_enabled }
+
+- name: Deploy kubespray file server
+  hosts: k8s_cluster:etcd
+  gather_facts: True
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  environment: "{{ proxy_disable_env }}"  
+  roles:
+    - role: kubespray-defaults
+    - role: "container-engine/docker"
+      tags: "kubespray-file-server"
+      when:
+        - deploy_container_engine
+        - deploy_kubespray_file_server
+    - role: kubespray-file-server
+      tags: "kubespray-file-server"
+      when: deploy_kubespray_file_server

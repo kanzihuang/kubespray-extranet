@@ -1,0 +1,6 @@
+---
+- name: Kubespray extranet preinstall
+  import_playbook: kubespray-extranet-preinstall.yml
+
+- name: Upgrade cluster
+  import_playbook: ../kubespray/upgrade-cluster.yml

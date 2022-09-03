@@ -1,0 +1,7 @@
+---
+## Uncomment this if you want to force overlay/overlay2 as docker storage driver
+## Please note that overlay2 is only supported on newer kernels
+docker_storage_options: -s overlay2
+
+## Used to set docker daemon iptables options to true
+docker_iptables_enabled: "true"

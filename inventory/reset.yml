@@ -1,0 +1,6 @@
+---
+- name: Reset cluster
+  import_playbook: ../kubespray/reset.yml
+
+- name: Kubespray extranet reset
+  import_playbook: kubespray-extranet-reset.yml

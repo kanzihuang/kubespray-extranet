@@ -1,0 +1,5 @@
+---
+## Add other registry,example China registry mirror.
+docker_registry_mirrors:
+  - "https://swr.cn-north-4.myhuaweicloud.com"
+  - https://registry.docker-cn.com

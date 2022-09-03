@@ -1,0 +1,10 @@
+---
+- name: Dummy extranet reset
+  hosts: k8s_cluster:etcd
+  gather_facts: false
+  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+  tasks:
+    - name: dummy extranet reset
+      include_role:
+        name: dummy-extranet
+        tasks_from: reset

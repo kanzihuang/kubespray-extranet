@@ -1,0 +1,5 @@
+---
+deploy_kubespray_file_server: true
+kubespray_file_server_port: 8080
+kubespray_file_server_image_repo: docker.io/kanzihuang/kubespray-file-server
+kubespray_file_server_image_tag: v2.19.0

@@ -1,0 +1,41 @@
+---
+- name: reset | check dummy public network device
+  stat:
+    path: /etc/systemd/system/dummy-extranet.service
+    get_attributes: no
+    get_checksum: no
+    get_mime: no
+  register: dummy_service
+
+- name: reset | disable service dummy nat
+  systemd: 
+    name: dummy-extranet
+    enabled: no
+    state: stopped
+  when: dummy_service.stat.exists
+
+- name: reset | uninstall service dummy nat
+  file:
+    path: /etc/systemd/system/dummy-extranet.service
+    state: absent
+
+- name: reset | uninstall dummy network
+  file:
+    path: "/etc/systemd/network/{{ item }}"
+    state: absent
+  with_items:
+    - 70-dummy-pub0.netdev
+    - 70-dummy-pub0.network
+  notify: restart network
+
+- name: reset | check dummy public network device
+  stat:
+    path: /sys/class/net/dummy-pub0
+    get_attributes: no
+    get_checksum: no
+    get_mime: no
+  register: dummy_interface
+
+- name: reset | remove the dummy public network device
+  command: ip link del dummy-pub0
+  when: dummy_interface.stat.exists

@@ -1,0 +1,5 @@
+---
+## Upstream dns servers
+upstream_dns_servers:
+  - 183.60.83.19
+  - 183.60.82.98

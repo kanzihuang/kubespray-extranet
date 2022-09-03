@@ -1,0 +1,25 @@
+---
+- name: check kubespray-file-server
+  uri:
+    url: "{{ files_repo }}/kubespray-files.list"
+    method: HEAD
+  register: uri_result
+  ignore_errors: true
+
+- name: remove kubespray-file-server
+  command: "docker rm -f kubespray-file-server > /dev/null"
+  when: not uri_result is success
+  ignore_errors: true
+
+- name: deploy kubespray-file-server
+  command: "docker run -d --name kubespray-file-server -p {{ kubespray_file_server_port }}:80 {{ kubespray_file_server_image_repo }}:{{ kubespray_file_server_image_tag }}"
+  when: not uri_result is success
+
+- name: wait for kubespray-file-server
+  uri:
+    url: "{{ files_repo }}"
+    method: HEAD
+  register: uri_result
+  until: uri_result is success
+  retries: 4
+  delay: "{{ retry_stagger | default(5) }}"
