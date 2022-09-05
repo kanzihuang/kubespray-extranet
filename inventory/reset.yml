@@ -3,4 +3,4 @@
   import_playbook: ../kubespray/reset.yml
 
 - name: Kubespray extranet reset
-  import_playbook: kubespray-extranet-reset.yml
+  import_playbook: extranet-reset.yml
