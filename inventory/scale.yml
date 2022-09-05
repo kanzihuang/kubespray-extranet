@@ -1,6 +1,6 @@
 ---
 - name: Kubespray extranet preinstall
-  import_playbook: kubespray-extranet-preinstall.yml
+  import_playbook: extranet-preinstall.yml
 
 - name: Scale cluster
   import_playbook: ../kubespray/scale.yml

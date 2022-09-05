@@ -22,6 +22,7 @@ vagrant/
 plugins/mitogen
 
 # Ansible inventory
+inventory/hosts.yml
 # inventory/*
 # !inventory/local
 # !inventory/sample

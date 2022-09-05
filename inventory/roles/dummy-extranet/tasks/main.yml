@@ -1,14 +1,4 @@
 ---
-- name: retrieve default gateway source
-  become: false
-  raw: ip -4 route list 0/0 | sed 's/.*src \([.[:digit:]]*\).*/\1/'
-  changed_when: false
-  register: node_default_gateway_source_cmd
-
-- name: set node_default_gateway_source
-  set_fact:
-    node_default_gateway_source={{ node_default_gateway_source_cmd.stdout | trim }}
-
 - name:  install service dummy extranet
   template:
     src: dummy-extranet.service.j2
@@ -17,17 +7,7 @@
 
 - name: enable service dummy extranet
   systemd: 
-    name: dummy-extranet
+    name: dummy-extranet.service
     daemon_reload: yes
     enabled: yes
     state: started
-
-- name: install dummy extranet network
-  template:
-    src: "{{ item.src }}.j2"
-    dest: "/etc/systemd/network/{{ item.dst }}"
-    mode: 0644
-  with_items:
-  - {src: dummy-pub0.netdev, dst: 70-dummy-pub0.netdev }
-  - {src: dummy-pub0.network, dst: 70-dummy-pub0.network }
-  notify:  restart network

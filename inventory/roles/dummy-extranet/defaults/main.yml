@@ -1,3 +1,4 @@
 ---
 dummy_extranet_enabled: true
-dummy_extranet_ip: "{{ access_ip }}"
+extranet_internal_ip: "{{ fallback_ips[inventory_hostname] }}"
+extranet_external_ip: "{{ access_ip }}"

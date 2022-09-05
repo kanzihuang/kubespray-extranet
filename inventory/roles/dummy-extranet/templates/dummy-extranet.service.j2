@@ -1,16 +1,21 @@
 [Unit]
-Description=dummy extranet nat
+Description=kuberspray extranet service
 After=network.target
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 
-ExecStart=/usr/sbin/iptables -t nat -I POSTROUTING -s {{ dummy_extranet_ip }}/32 -j SNAT --to-source {{ node_default_gateway_source }} -m comment --comment "dummy-extranet.service"
-ExecStart=/usr/sbin/iptables -t nat -I OUTPUT -d {{ dummy_extranet_ip }}/32 -j DNAT --to-destination {{ node_default_gateway_source }} -m comment --comment "dummy-extranet.service"
+ExecStart=/usr/sbin/ip link add dev dummy-pub0 type dummy
+ExecStart=/usr/sbin/ip address add {{ extranet_external_ip }}/32 dev dummy-pub0
 
-ExecStop=/usr/sbin/iptables -t nat -D POSTROUTING -s {{ dummy_extranet_ip }}/32 -j SNAT --to-source {{ node_default_gateway_source }} -m comment --comment "dummy-extranet.service"
-ExecStop=/usr/sbin/iptables -t nat -D OUTPUT -d {{ dummy_extranet_ip }}/32 -j DNAT --to-destination {{ node_default_gateway_source }} -m comment --comment "dummy-extranet.service"
+ExecStart=/usr/sbin/iptables -t nat -I POSTROUTING -s {{ extranet_external_ip }}/32 -j SNAT --to-source {{ extranet_internal_ip }} -m comment --comment "dummy-extranet.service"
+ExecStart=/usr/sbin/iptables -t nat -I OUTPUT -d {{ extranet_external_ip }}/32 -j DNAT --to-destination {{ extranet_internal_ip }} -m comment --comment "dummy-extranet.service"
+
+ExecStop=/usr/sbin/ip link delete dev dummy-pub0
+
+ExecStop=/usr/sbin/iptables -t nat -D POSTROUTING -s {{ extranet_external_ip }}/32 -j SNAT --to-source {{ extranet_internal_ip }} -m comment --comment "dummy-extranet.service"
+ExecStop=/usr/sbin/iptables -t nat -D OUTPUT -d {{ extranet_external_ip }}/32 -j DNAT --to-destination {{ extranet_internal_ip }} -m comment --comment "dummy-extranet.service"
 
 [Install]
 WantedBy=multi-user.target

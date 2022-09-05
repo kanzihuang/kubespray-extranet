@@ -1,18 +1,18 @@
 ---
-- name: Dummy extranet
-  hosts: k8s_cluster:etcd
-  gather_facts: False
-  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  roles:
-    - { role: dummy-extranet, tags: "kubespray-extranet", when: dummy_extranet_enabled }
+# - name: Gather facts
+#   tags: always
+#   import_playbook: ../kubespray/facts.yml
 
-- name: Deploy kubespray file server
+- name: Kubespray extranet preinstall
   hosts: k8s_cluster:etcd
   gather_facts: True
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
   environment: "{{ proxy_disable_env }}"  
   roles:
     - role: kubespray-defaults
+    - role: dummy-extranet
+      tags: "dummy-extranet"
+      when: dummy_extranet_enabled
     - role: "container-engine/docker"
       tags: "kubespray-file-server"
       when:

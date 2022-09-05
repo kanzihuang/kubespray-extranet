@@ -3,4 +3,4 @@
 my_dir="$(dirname $0)"
 source "${my_dir}/utils.sh"
 
-docker-ansible-playbook -b -i /inventory/hosts.yml --user ${USER} --private-key /root/.ssh/id_rsa /inventory/scale.yml -l tencent1
+docker-ansible-playbook -b -i /inventory/hosts.yml --user ${USER} --private-key /root/.ssh/id_rsa /inventory/scale.yml -l huawei2
